@@ -1,0 +1,493 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@theme {
+  /* Typography */
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-mono: 'Geist Mono', monospace;
+  
+  /* Light mode colors */
+  --color-background: #f8f9fa;
+  --color-foreground: #1a1a2e;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1a2e;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1a2e;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f3f5;
+  --color-secondary-foreground: #1a1a2e;
+  --color-muted: #e9ecef;
+  --color-muted-foreground: #64748b;
+  --color-accent: #e7f0ff;
+  --color-accent-foreground: #1a1a2e;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-input: #ffffff;
+  --color-ring: #2563eb;
+  
+  /* Chart colors */
+  --color-chart-1: oklch(0.646 0.222 41.116);
+  --color-chart-2: oklch(0.6 0.118 184.704);
+  --color-chart-3: oklch(0.398 0.07 227.392);
+  --color-chart-4: oklch(0.828 0.189 84.429);
+  --color-chart-5: oklch(0.769 0.188 70.08);
+  
+  /* Radius */
+  --radius: 0.75rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Explicit light theme */
+.light,
+:root:not(.dark) {
+  --color-background: #f8f9fa;
+  --color-foreground: #1a1a2e;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1a2e;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a1a2e;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f3f5;
+  --color-secondary-foreground: #1a1a2e;
+  --color-muted: #e9ecef;
+  --color-muted-foreground: #64748b;
+  --color-accent: #e7f0ff;
+  --color-accent-foreground: #1a1a2e;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-input: #ffffff;
+  --color-ring: #2563eb;
+  
+  --color-chart-1: #3b82f6;
+  --color-chart-2: #10b981;
+  --color-chart-3: #f59e0b;
+  --color-chart-4: #8b5cf6;
+  --color-chart-5: #ec4899;
+}
+
+/* Explicit dark theme - this will override light theme when .dark class is present */
+.dark {
+  --color-background: #000000 !important;
+  --color-foreground: #ffffff !important;
+  --color-card: #0a0a0a !important;
+  --color-card-foreground: #ffffff !important;
+  --color-popover: #0a0a0a !important;
+  --color-popover-foreground: #ffffff !important;
+  --color-primary: #ffffff !important;
+  --color-primary-foreground: #000000 !important;
+  --color-secondary: #1a1a1a !important;
+  --color-secondary-foreground: #ffffff !important;
+  --color-muted: #1a1a1a !important;
+  --color-muted-foreground: #a3a3a3 !important;
+  --color-accent: #262626 !important;
+  --color-accent-foreground: #ffffff !important;
+  --color-destructive: #dc2626 !important;
+  --color-destructive-foreground: #ffffff !important;
+  --color-border: rgba(255, 255, 255, 0.1) !important;
+  --color-input: rgba(255, 255, 255, 0.1) !important;
+  --color-ring: rgba(255, 255, 255, 0.2) !important;
+  
+  --color-chart-1: #3b82f6 !important;
+  --color-chart-2: #10b981 !important;
+  --color-chart-3: #f59e0b !important;
+  --color-chart-4: #8b5cf6 !important;
+  --color-chart-5: #ec4899 !important;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Geist Mono', monospace;
+    /* font-size: 14px; */
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Improved scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted-foreground);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-foreground);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted-foreground) var(--color-background);
+}
+
+/* Simple card styling */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Light mode card enhancements */
+.light .bg-card,
+:root:not(.dark) .bg-card {
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.light .border,
+:root:not(.dark) .border {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Colorful card variants for light mode */
+.light .card-blue {
+  background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+  border: 1px solid #bfdbfe;
+}
+
+.light .card-purple {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+  border: 1px solid #ddd6fe;
+}
+
+.light .card-green {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border: 1px solid #bbf7d0;
+}
+
+.light .card-orange {
+  background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+  border: 1px solid #fed7aa;
+}
+
+.light .card-pink {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+  border: 1px solid #fbcfe8;
+}
+
+/* Image overlay */
+.image-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-overlay:hover::after {
+  opacity: 1;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Pulse animation for blur effects */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Ensure smooth transitions */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better touch targets on mobile */
+@media (max-width: 768px) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Improved focus visible states */
+*:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for theme changes */
+.dark,
+.light {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Card improvements */
+.card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Better backdrop blur support */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  .backdrop-blur-2xl {
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+  }
+}
+
+/* Improved grid background visibility */
+.grid-pattern {
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, #000 70%, transparent 100%);
+}
+
+/* Slick Carousel Custom Styles */
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  user-select: none;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0 -12px;
+}
+
+.slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.slick-list:focus {
+  outline: none;
+}
+
+.slick-list.dragging {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list {
+  transform: translate3d(0, 0, 0);
+}
+
+.slick-track {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: stretch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.slick-track:before,
+.slick-track:after {
+  display: table;
+  content: '';
+}
+
+.slick-track:after {
+  clear: both;
+}
+
+.slick-loading .slick-track {
+  visibility: hidden;
+}
+
+.slick-slide {
+  display: flex !important;
+  flex-direction: column;
+  height: inherit;
+  min-height: 1px;
+  float: none;
+}
+
+.slick-slide > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.slick-track {
+  display: flex;
+  align-items: stretch;
+}
+
+[dir='rtl'] .slick-slide {
+  float: right;
+}
+
+.slick-slide img {
+  display: block;
+}
+
+.slick-slide.slick-loading img {
+  display: none;
+}
+
+.slick-slide.dragging img {
+  pointer-events: none;
+}
+
+.slick-initialized .slick-slide {
+  display: flex !important;
+}
+
+.slick-loading .slick-slide {
+  visibility: hidden;
+}
+
+.slick-vertical .slick-slide {
+  display: block;
+  height: auto;
+  border: 1px solid transparent;
+}
+
+.slick-arrow.slick-hidden {
+  display: none;
+}
+
+/* Slick dots */
+.slick-dots {
+  position: relative;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 20px 0 0 0;
+  list-style: none;
+  text-align: center;
+}
+
+.slick-dots li {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+.slick-dots li button:before {
+  font-size: 6px;
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  content: '•';
+  text-align: center;
+  opacity: 0.25;
+  color: var(--color-foreground);
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 0.75;
+  color: var(--color-foreground);
+}
+
+.slick-dots li button:hover:before,
+.slick-dots li button:focus:before {
+  opacity: 1;
+}
