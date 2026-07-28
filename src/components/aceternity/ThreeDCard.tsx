@@ -1,4 +1,5 @@
-import { ReactNode, useRef, useState, MouseEvent } from 'react';
+import { useRef, useState } from 'react';
+import type { ReactNode, MouseEvent } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 
 export default function ThreeDCard({
@@ -52,7 +53,7 @@ export default function ThreeDCard({
         rotateX,
         transformStyle: 'preserve-3d',
       }}
-      className={`relative ${className}`}
+      className={`relative ${isHovered ? 'scale-[1.02]' : ''} ${className}`}
     >
       <div style={{ transform: 'translateZ(50px)', transformStyle: 'preserve-3d' }}>
         {children}

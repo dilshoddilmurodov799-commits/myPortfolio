@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import { Slider } from './ui/slider';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
-import { Separator } from './ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { Upload, RotateCcw, PanelRight, Shuffle } from 'lucide-react';
@@ -224,7 +223,7 @@ export default function LiquidGlassEditor() {
     blurhash: DEFAULT_BACKGROUND_IMAGE.blurhash
   });
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [nextImage, setNextImage] = useState<CuratedImage | null>(null);
+  const [, setNextImage] = useState<CuratedImage | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isGlassDragging, setIsGlassDragging] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile); // Close sidebar on mobile by default

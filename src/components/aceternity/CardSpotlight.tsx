@@ -1,4 +1,5 @@
-import { ReactNode, useState, useRef, MouseEvent } from 'react';
+import { useState, useRef } from 'react';
+import type { ReactNode, MouseEvent } from 'react';
 import { motion } from 'motion/react';
 
 export default function CardSpotlight({

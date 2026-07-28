@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 
 export default function Spotlight({

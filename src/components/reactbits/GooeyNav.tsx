@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Moon, Sun, Globe } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../ui/button';
-import { is } from 'react-day-picker/locale';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -17,7 +16,7 @@ export default function GooeyNav() {
   const [isVisible, setIsVisible] = useState(true);
   const [activeSection, setActiveSection] = useState('');
   const [showLanguages, setShowLanguages] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
   const languageRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { decodeToCanvas } from './utils/blurhash';
 
 interface ShaderUniforms {
   time: number;
@@ -51,7 +50,7 @@ export default function LiquidGlassShader({ backgroundMedia, uniforms, className
   const programRef = useRef<WebGLProgram | null>(null);
   const textureRef = useRef<WebGLTexture | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(Date.now());
   const imageAspectRef = useRef<number>(1);
   const lastResizeRef = useRef<string>('');
@@ -60,7 +59,7 @@ export default function LiquidGlassShader({ backgroundMedia, uniforms, className
   const uniformLocationsRef = useRef<Record<string, WebGLUniformLocation | null>>({});
   
   const [hasDerivatives, setHasDerivatives] = useState(false);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [, setIsImageLoaded] = useState(false);
   const [isShaderReady, setIsShaderReady] = useState(false);
 
   const vertexShaderSource = `
@@ -444,7 +443,7 @@ export default function LiquidGlassShader({ backgroundMedia, uniforms, className
     return program;
   }, []);
 
-  const createWhiteTexture = useCallback((gl: WebGLRenderingContext) => {
+  const createWhiteTexture = useCallback(() => {
     const canvas2d = document.createElement('canvas');
     canvas2d.width = canvas2d.height = 512;
     const ctx = canvas2d.getContext('2d')!;
@@ -456,23 +455,12 @@ export default function LiquidGlassShader({ backgroundMedia, uniforms, className
     return canvas2d;
   }, []);
 
-  const createBlurhashTexture = useCallback((gl: WebGLRenderingContext, blurhash: string) => {
-    try {
-      // Decode blurhash to a small canvas for fast display
-      const blurhashCanvas = decodeToCanvas(blurhash, 64, 64, 1);
-      return blurhashCanvas;
-    } catch (error) {
-      console.warn('Failed to decode blurhash:', error);
-      return createWhiteTexture(gl);
-    }
-  }, [createWhiteTexture]);
-
   const loadTexture = useCallback((gl: WebGLRenderingContext, media: BackgroundMedia) => {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
     
     // Always use white as initial texture instead of blurhash for neutral transitions
-    const initialCanvas = createWhiteTexture(gl);
+    const initialCanvas = createWhiteTexture();
     
     // Load initial texture immediately
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, initialCanvas);
@@ -660,7 +648,7 @@ export default function LiquidGlassShader({ backgroundMedia, uniforms, className
       // Create the default white texture
       const texture = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, texture);
-      const whiteCanvas = createWhiteTexture(gl);
+      const whiteCanvas = createWhiteTexture();
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, whiteCanvas);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -753,15 +741,9 @@ export default function LiquidGlassShader({ backgroundMedia, uniforms, className
     };
   }, [uniforms, backgroundMedia, isTransitioning, updateVideoTexture, getShapeUniform]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = useCallback((_e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left);
-    const y = (canvas.offsetHeight - (e.clientY - rect.top));
-    
-    // Update mouse position in uniforms (this would be handled by parent component)
   }, []);
 
   return (

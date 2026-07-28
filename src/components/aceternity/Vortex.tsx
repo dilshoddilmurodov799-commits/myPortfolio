@@ -39,6 +39,8 @@ export default function Vortex({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const safeCanvas = canvas;
+
     let animationFrameId: number;
     let particles: Particle[] = [];
 
@@ -50,8 +52,8 @@ export default function Vortex({
       hue: number;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * rangeY + canvas.height / 2 - rangeY / 2;
+        this.x = Math.random() * safeCanvas.width;
+        this.y = Math.random() * rangeY + safeCanvas.height / 2 - rangeY / 2;
         this.speed = baseSpeed + Math.random() * rangeSpeed;
         this.radius = baseRadius + Math.random() * rangeRadius;
         this.hue = baseHue + Math.random() * 60;
@@ -59,7 +61,7 @@ export default function Vortex({
 
       update() {
         this.x += this.speed;
-        if (this.x > canvas.width + this.radius) {
+        if (this.x > safeCanvas.width + this.radius) {
           this.x = -this.radius;
         }
       }
